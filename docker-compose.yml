@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  api:
+    build: .
+    ports:
+      - 4000:3000
+    environment:
+       PORT: 3000
+       MONGODB_URL: mongodb://mongo_db:27017/pro
+       JWT_SECRET: 2ejhwsfhihjifhjsjjogfjs
+       DB_NAME: my_db
+       NAME: pro
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
